@@ -282,6 +282,7 @@ class SimpleMonthYearPicker {
 
   static Widget showMonthYearPicker({
     required BuildContext context,
+    DateTime? initialDate,
     TextStyle? titleTextStyle,
     TextStyle? yearTextStyle,
     TextStyle? monthTextStyle,
@@ -298,10 +299,10 @@ class SimpleMonthYearPicker {
     // var textTheme = theme.textTheme;
 
     /// to get current year
-    int selectedYear = DateTime.now().year;
+    int selectedYear = (initialDate ?? DateTime.now()).year;
 
     /// to get index corresponding to current month (1- Jan, 2- Feb,..)
-    var selectedMonth = DateTime.now().month;
+    var selectedMonth = (initialDate ?? DateTime.now()).month;
 
     return StatefulBuilder(builder: (context, setState) {
       return Stack(
