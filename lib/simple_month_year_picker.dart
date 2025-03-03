@@ -307,6 +307,7 @@ class SimpleMonthYearPicker {
     return StatefulBuilder(builder: (context, setState) {
       return Container(
           width: width ?? 370,
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: bgColor,
             border: Border.all(
@@ -378,6 +379,8 @@ class SimpleMonthYearPicker {
             Padding(
                 padding: const EdgeInsets.only(top: 12),
                 child: Wrap(
+                  runSpacing: 10,
+                  spacing: 10,
                   children: [
                     for (var item in _monthModelList)
                       InkWell(
