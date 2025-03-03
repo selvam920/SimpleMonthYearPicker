@@ -303,11 +303,10 @@ class SimpleMonthYearPicker {
     var selectedMonth = (initialDate ?? DateTime.now()).month;
 
     return StatefulBuilder(builder: (context, setState) {
-      return Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(10),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      return Column(
+          spacing: 10,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -403,7 +402,7 @@ class SimpleMonthYearPicker {
                             )
                   ],
                 )),
-          ]));
+          ]);
     });
   }
 
