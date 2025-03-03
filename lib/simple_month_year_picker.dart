@@ -412,9 +412,8 @@ class SimpleMonthYearPicker {
                           selectedYear++;
                         });
 
-                        onDateSelected(
-                                _getSelectedDate(selectedYear, selectedMonth))
-                            .call();
+                        onDateSelected.call(
+                            _getSelectedDate(selectedYear, selectedMonth));
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios,
