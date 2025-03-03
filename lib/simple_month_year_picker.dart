@@ -279,4 +279,225 @@ class SimpleMonthYearPicker {
         selectedMonth < 10 ? "0$selectedMonth" : "$selectedMonth";
     return DateTime.parse('$selectedYear-$selectedMonthString-01');
   }
+
+  static Widget showMonthYearPicker({
+    required BuildContext context,
+    TextStyle? titleTextStyle,
+    TextStyle? yearTextStyle,
+    TextStyle? monthTextStyle,
+    Color? backgroundColor,
+    Color? selectionColor,
+    double? height,
+    double? width,
+    required Function(DateTime) onDateSelected,
+  }) {
+    final ThemeData theme = Theme.of(context);
+    var primaryColor = selectionColor ?? theme.primaryColor;
+    var bgColor = backgroundColor ?? theme.scaffoldBackgroundColor;
+    // var textTheme = theme.textTheme;
+
+    /// to get current year
+    int selectedYear = DateTime.now().year;
+
+    /// to get index corresponding to current month (1- Jan, 2- Feb,..)
+    var selectedMonth = DateTime.now().month;
+
+    return Stack(
+      children: [
+        Container(
+          height: height ?? 210,
+          width: width ?? 370,
+          decoration: BoxDecoration(
+            color: bgColor,
+            border: Border.all(
+              color: primaryColor,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15, top: 15),
+                child: Text(
+                  'Select Month ',
+                  style: titleTextStyle ??
+                      TextStyle(
+                        fontFamily: 'Rajdhani',
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, top: 5),
+                child: SizedBox(
+                  height: 100,
+                  width: 300,
+                  child: GridView.builder(
+                    itemCount: _monthModelList.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 6,
+                    ),
+                    itemBuilder: (_, index) {
+                      var monthModel = _monthModelList[index];
+                      return InkWell(
+                        onTap: () {
+                          selectedMonth = index + 1;
+                          onDateSelected(
+                                  _getSelectedDate(selectedYear, selectedMonth))
+                              .call();
+                        },
+                        onHover: (val) {},
+                        child: MonthContainer(
+                          textStyle: monthTextStyle,
+                          month: monthModel.name,
+                          fillColor: index + 1 == selectedMonth
+                              ? primaryColor
+                              : bgColor,
+                          borderColor: index + 1 == selectedMonth
+                              ? primaryColor
+                              : bgColor,
+                          textColor: index + 1 != selectedMonth
+                              ? primaryColor
+                              : bgColor,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 70,
+                      decoration: BoxDecoration(
+                        color: bgColor,
+                        border: Border.all(
+                          color: primaryColor,
+                        ),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      String selectedMonthString = selectedMonth < 10
+                          ? "0$selectedMonth"
+                          : "$selectedMonth";
+                      var selectedDate = DateTime.parse(
+                          '$selectedYear-$selectedMonthString-01');
+
+                      Navigator.pop(context, selectedDate);
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 70,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        border: Border.all(
+                          color: primaryColor,
+                        ),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'OK',
+                          style: TextStyle(
+                            color: bgColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        Positioned.fill(
+          top: 10,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    selectedYear = selectedYear - 1;
+
+                    onDateSelected(
+                            _getSelectedDate(selectedYear, selectedMonth))
+                        .call();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 10,
+                    color: primaryColor,
+                  ),
+                ),
+                Text(
+                  selectedYear.toString(),
+                  style: yearTextStyle ??
+                      TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Rajdhani',
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                if (selectedYear != DateTime.now().year)
+                  IconButton(
+                    onPressed: () {
+                      selectedYear++;
+                      onDateSelected(
+                              _getSelectedDate(selectedYear, selectedMonth))
+                          .call();
+                    },
+                    icon: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 10,
+                      color: primaryColor,
+                    ),
+                  )
+                else
+                  SizedBox(
+                    width: 50,
+                  ),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  static DateTime _getSelectedDate(int selectedYear, int selectedMonth) {
+    String selectedMonthString =
+        selectedMonth < 10 ? "0$selectedMonth" : "$selectedMonth";
+    return DateTime.parse('$selectedYear-$selectedMonthString-01');
+  }
 }
