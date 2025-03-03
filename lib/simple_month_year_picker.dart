@@ -305,19 +305,18 @@ class SimpleMonthYearPicker {
     var selectedMonth = (initialDate ?? DateTime.now()).month;
 
     return StatefulBuilder(builder: (context, setState) {
-      return Stack(
-        children: [
-          Container(
-            width: width ?? 370,
-            decoration: BoxDecoration(
-              color: bgColor,
-              border: Border.all(
-                color: primaryColor,
-              ),
-              borderRadius: BorderRadius.circular(8),
+      return Container(
+          width: width ?? 370,
+          decoration: BoxDecoration(
+            color: bgColor,
+            border: Border.all(
+              color: primaryColor,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 15, top: 15),
@@ -330,105 +329,89 @@ class SimpleMonthYearPicker {
                         ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: GridView.builder(
-                      itemCount: _monthModelList.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 6,
-                      ),
-                      itemBuilder: (_, index) {
-                        var monthModel = _monthModelList[index];
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedMonth = index + 1;
-                            });
-
-                            onDateSelected.call(
-                                _getSelectedDate(selectedYear, selectedMonth));
-                          },
-                          onHover: (val) {},
-                          child: MonthContainer(
-                            textStyle: monthTextStyle,
-                            month: monthModel.name,
-                            fillColor: index + 1 == selectedMonth
-                                ? primaryColor
-                                : bgColor,
-                            borderColor: index + 1 == selectedMonth
-                                ? primaryColor
-                                : bgColor,
-                            textColor: index + 1 != selectedMonth
-                                ? primaryColor
-                                : bgColor,
-                          ),
-                        );
-                      },
-                    ),
+                Spacer(),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedYear--;
+                    });
+                    onDateSelected
+                        .call(_getSelectedDate(selectedYear, selectedMonth));
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 10,
+                    color: primaryColor,
                   ),
                 ),
-              ],
-            ),
-          ),
-          Positioned.fill(
-            top: 10,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                Text(
+                  selectedYear.toString(),
+                  style: yearTextStyle ??
+                      TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Rajdhani',
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                if (selectedYear != DateTime.now().year)
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        selectedYear--;
+                        selectedYear++;
                       });
+
                       onDateSelected
                           .call(_getSelectedDate(selectedYear, selectedMonth));
                     },
                     icon: Icon(
-                      Icons.arrow_back_ios,
+                      Icons.arrow_forward_ios,
                       size: 10,
                       color: primaryColor,
                     ),
+                  )
+                else
+                  SizedBox(
+                    width: 50,
                   ),
-                  Text(
-                    selectedYear.toString(),
-                    style: yearTextStyle ??
-                        TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Rajdhani',
-                          fontWeight: FontWeight.bold,
-                        ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: SizedBox(
+                width: double.infinity,
+                child: GridView.builder(
+                  itemCount: _monthModelList.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 6,
                   ),
-                  if (selectedYear != DateTime.now().year)
-                    IconButton(
-                      onPressed: () {
+                  itemBuilder: (_, index) {
+                    var monthModel = _monthModelList[index];
+                    return InkWell(
+                      onTap: () {
                         setState(() {
-                          selectedYear++;
+                          selectedMonth = index + 1;
                         });
 
                         onDateSelected.call(
                             _getSelectedDate(selectedYear, selectedMonth));
                       },
-                      icon: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 10,
-                        color: primaryColor,
+                      onHover: (val) {},
+                      child: MonthContainer(
+                        textStyle: monthTextStyle,
+                        month: monthModel.name,
+                        fillColor:
+                            index + 1 == selectedMonth ? primaryColor : bgColor,
+                        borderColor:
+                            index + 1 == selectedMonth ? primaryColor : bgColor,
+                        textColor:
+                            index + 1 != selectedMonth ? primaryColor : bgColor,
                       ),
-                    )
-                  else
-                    SizedBox(
-                      width: 50,
-                    ),
-                ],
+                    );
+                  },
+                ),
               ),
             ),
-          )
-        ],
-      );
+          ]));
     });
   }
 
