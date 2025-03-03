@@ -376,43 +376,36 @@ class SimpleMonthYearPicker {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: SizedBox(
-                width: double.infinity,
-                child: GridView.builder(
-                  shrinkWrap: false,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: _monthModelList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 6,
-                  ),
-                  itemBuilder: (val, index) {
-                    var monthModel = _monthModelList[index];
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          selectedMonth = index + 1;
-                        });
+                padding: const EdgeInsets.only(top: 12),
+                child: Wrap(
+                  children: [
+                    for (var item in _monthModelList)
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedMonth = item.index;
+                          });
 
-                        onDateSelected.call(
-                            _getSelectedDate(selectedYear, selectedMonth));
-                      },
-                      onHover: (val) {},
-                      child: MonthContainer(
-                        textStyle: monthTextStyle,
-                        month: monthModel.name,
-                        fillColor:
-                            index + 1 == selectedMonth ? primaryColor : bgColor,
-                        borderColor:
-                            index + 1 == selectedMonth ? primaryColor : bgColor,
-                        textColor:
-                            index + 1 != selectedMonth ? primaryColor : bgColor,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
+                          onDateSelected.call(
+                              _getSelectedDate(selectedYear, selectedMonth));
+                        },
+                        onHover: (val) {},
+                        child: MonthContainer(
+                          textStyle: monthTextStyle,
+                          month: item.name,
+                          fillColor: item.index == selectedMonth
+                              ? primaryColor
+                              : bgColor,
+                          borderColor: item.index == selectedMonth
+                              ? primaryColor
+                              : bgColor,
+                          textColor: item.index != selectedMonth
+                              ? primaryColor
+                              : bgColor,
+                        ),
+                      )
+                  ],
+                )),
           ]));
     });
   }
