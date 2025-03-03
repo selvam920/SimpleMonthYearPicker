@@ -380,12 +380,13 @@ class SimpleMonthYearPicker {
               child: SizedBox(
                 width: double.infinity,
                 child: GridView.builder(
+                  shrinkWrap: false,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: _monthModelList.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 6,
                   ),
-                  itemBuilder: (_, index) {
+                  itemBuilder: (val, index) {
                     var monthModel = _monthModelList[index];
                     return InkWell(
                       onTap: () {
