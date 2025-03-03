@@ -306,27 +306,18 @@ class SimpleMonthYearPicker {
       return Container(
           width: double.infinity,
           padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: bgColor,
-            border: Border.all(
-              color: primaryColor,
-            ),
-            borderRadius: BorderRadius.circular(8),
-          ),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, top: 15),
-                  child: Text(
-                    title ?? 'Select Month ',
-                    style: titleTextStyle ??
-                        TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
+                Text(
+                  title ?? 'Select Month ',
+                  style: titleTextStyle ??
+                      TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 Spacer(),
                 IconButton(
@@ -375,7 +366,7 @@ class SimpleMonthYearPicker {
               ],
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 12),
+                padding: const EdgeInsets.only(top: 16),
                 child: Wrap(
                   runSpacing: 20,
                   spacing: 10,
