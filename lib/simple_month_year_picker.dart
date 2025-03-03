@@ -327,16 +327,16 @@ class SimpleMonthYearPicker {
                     style: titleTextStyle ??
                         TextStyle(
                           fontFamily: 'Rajdhani',
-                          fontSize: 25,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.only(top: 7),
                   child: SizedBox(
                     height: 100,
-                    width: 300,
+                    width: double.infinity,
                     child: GridView.builder(
                       itemCount: _monthModelList.length,
                       gridDelegate:
