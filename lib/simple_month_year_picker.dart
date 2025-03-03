@@ -288,8 +288,6 @@ class SimpleMonthYearPicker {
     TextStyle? monthTextStyle,
     Color? backgroundColor,
     Color? selectionColor,
-    double? height,
-    double? width,
     String? title,
     required Function(DateTime) onDateSelected,
   }) {
@@ -306,7 +304,7 @@ class SimpleMonthYearPicker {
 
     return StatefulBuilder(builder: (context, setState) {
       return Container(
-          width: width ?? 370,
+          width: double.infinity,
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: bgColor,
@@ -379,34 +377,33 @@ class SimpleMonthYearPicker {
             Padding(
                 padding: const EdgeInsets.only(top: 12),
                 child: Wrap(
-                  runSpacing: 10,
+                  runSpacing: 20,
                   spacing: 10,
                   children: [
                     for (var item in _monthModelList)
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            selectedMonth = item.index;
-                          });
+                      item.index == selectedMonth
+                          ? FilledButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedMonth = item.index;
+                                });
 
-                          onDateSelected.call(
-                              _getSelectedDate(selectedYear, selectedMonth));
-                        },
-                        onHover: (val) {},
-                        child: MonthContainer(
-                          textStyle: monthTextStyle,
-                          month: item.name,
-                          fillColor: item.index == selectedMonth
-                              ? primaryColor
-                              : bgColor,
-                          borderColor: item.index == selectedMonth
-                              ? primaryColor
-                              : bgColor,
-                          textColor: item.index != selectedMonth
-                              ? primaryColor
-                              : bgColor,
-                        ),
-                      )
+                                onDateSelected.call(_getSelectedDate(
+                                    selectedYear, selectedMonth));
+                              },
+                              child: Text(item.name),
+                            )
+                          : TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedMonth = item.index;
+                                });
+
+                                onDateSelected.call(_getSelectedDate(
+                                    selectedYear, selectedMonth));
+                              },
+                              child: Text(item.name),
+                            )
                   ],
                 )),
           ]));
