@@ -308,7 +308,6 @@ class SimpleMonthYearPicker {
       return Stack(
         children: [
           Container(
-            height: height ?? 210,
             width: width ?? 370,
             decoration: BoxDecoration(
               color: bgColor,
