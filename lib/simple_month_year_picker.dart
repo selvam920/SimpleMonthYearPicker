@@ -289,6 +289,7 @@ class SimpleMonthYearPicker {
     Color? selectionColor,
     double? height,
     double? width,
+    String? title,
     required Function(DateTime) onDateSelected,
   }) {
     final ThemeData theme = Theme.of(context);
@@ -320,7 +321,7 @@ class SimpleMonthYearPicker {
               Padding(
                 padding: const EdgeInsets.only(left: 15, top: 15),
                 child: Text(
-                  'Select Month ',
+                  title ?? 'Select Month ',
                   style: titleTextStyle ??
                       TextStyle(
                         fontFamily: 'Rajdhani',
@@ -330,7 +331,7 @@ class SimpleMonthYearPicker {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30, top: 5),
+                padding: const EdgeInsets.only(top: 5),
                 child: SizedBox(
                   height: 100,
                   width: 300,
@@ -345,9 +346,8 @@ class SimpleMonthYearPicker {
                       return InkWell(
                         onTap: () {
                           selectedMonth = index + 1;
-                          onDateSelected(
-                                  _getSelectedDate(selectedYear, selectedMonth))
-                              .call();
+                          onDateSelected.call(
+                              _getSelectedDate(selectedYear, selectedMonth));
                         },
                         onHover: (val) {},
                         child: MonthContainer(
@@ -381,10 +381,8 @@ class SimpleMonthYearPicker {
                 IconButton(
                   onPressed: () {
                     selectedYear = selectedYear - 1;
-
-                    onDateSelected(
-                            _getSelectedDate(selectedYear, selectedMonth))
-                        .call();
+                    onDateSelected
+                        .call(_getSelectedDate(selectedYear, selectedMonth));
                   },
                   icon: Icon(
                     Icons.arrow_back_ios,
@@ -401,24 +399,26 @@ class SimpleMonthYearPicker {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                if (selectedYear != DateTime.now().year)
-                  IconButton(
-                    onPressed: () {
+                // if (selectedYear != DateTime.now().year)
+                IconButton(
+                  onPressed: () {
+                    if (selectedYear != DateTime.now().year) {
                       selectedYear++;
                       onDateSelected(
                               _getSelectedDate(selectedYear, selectedMonth))
                           .call();
-                    },
-                    icon: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 10,
-                      color: primaryColor,
-                    ),
-                  )
-                else
-                  SizedBox(
-                    width: 50,
+                    }
+                  },
+                  icon: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 10,
+                    color: primaryColor,
                   ),
+                )
+                // else
+                //   SizedBox(
+                //     width: 50,
+                //   ),
               ],
             ),
           ),
