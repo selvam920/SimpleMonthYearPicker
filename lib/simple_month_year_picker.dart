@@ -391,7 +391,10 @@ class SimpleMonthYearPicker {
                                 onDateSelected.call(_getSelectedDate(
                                     selectedYear, selectedMonth));
                               },
-                              child: Text(item.name),
+                              child: Text(
+                                item.name,
+                                style: TextStyle(fontSize: 18),
+                              ),
                             )
                           : TextButton(
                               onPressed: () {
@@ -402,7 +405,10 @@ class SimpleMonthYearPicker {
                                 onDateSelected.call(_getSelectedDate(
                                     selectedYear, selectedMonth));
                               },
-                              child: Text(item.name),
+                              child: Text(
+                                item.name,
+                                style: TextStyle(fontSize: 18),
+                              ),
                             )
                   ],
                 )),
