@@ -380,6 +380,7 @@ class SimpleMonthYearPicker {
               child: SizedBox(
                 width: double.infinity,
                 child: GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: _monthModelList.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 6,
